@@ -18,7 +18,8 @@ const HomePage = () => {
 
   return (
     <div className="home-container">
-      <h1>Welcome to the Typing Practice</h1>
+      <h1>Check your typing skills in a minute</h1>
+      <p>Type away to join 150+ million test takers!</p>
       <select onChange={handleDurationChange} value={duration}>
         <option value="">Select Duration</option>
         <option value="1">1 Minute</option>

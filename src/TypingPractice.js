@@ -1,273 +1,3 @@
-// import React, { useState, useEffect } from 'react';
-// import { useNavigate, useLocation } from 'react-router-dom';
-// import "./TypingPractice.css"
-
-// const TypingPractice = () => {
-//   const practiceText = "Hello world. Practice typing here."; // Example text
-//   const words = practiceText.split(' ');
-//   const [userInput, setUserInput] = useState('');
-//   const [currentWordIndex, setCurrentWordIndex] = useState(0);
-//   const [lastWordCorrect, setLastWordCorrect] = useState(true);
-
-//   const [timeLeft, setTimeLeft] = useState(null);
-//   const navigate = useNavigate();
-//   const location = useLocation();
-
-//   // Extract and set the duration from URL query params
-//   useEffect(() => {
-//     const searchParams = new URLSearchParams(location.search);
-//     const duration = Number(searchParams.get('duration')) * 60; // Convert minutes to seconds
-//     setTimeLeft(duration);
-//   }, [location]);
-
-//   // Timer logic
-//   useEffect(() => {
-//     let timerId;
-//     if (timeLeft > 0) {
-//       timerId = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
-//     } else if (timeLeft === 0) {
-//       // Calculate statistics here (placeholder for now)
-//       const statistics = {
-//         grossWPM: 0,
-//         accuracy: 0,
-//         netWPM: 0
-//       };
-
-//       navigate('/results', { state: statistics });
-//     }
-
-//     return () => clearTimeout(timerId);
-//   }, [timeLeft, navigate]);
-
-//   const handleInputChange = (event) => {
-//     const input = event.target.value;
-//     setUserInput(input);
-
-//     if (input.endsWith(' ') || currentWordIndex === words.length - 1) {
-//       const currentWord = words[currentWordIndex];
-//       const typedWord = input.trim();
-//       setLastWordCorrect(currentWord === typedWord);
-
-//       setCurrentWordIndex((currentWordIndex + 1) % words.length);
-//       setUserInput('');
-//     }
-//   };
-
-//   // Helper function to format time in mm:ss format
-//   const formatTime = (seconds) => {
-//     if (seconds === null) return '00:00';
-//     const minutes = Math.floor(seconds / 60);
-//     const remainingSeconds = seconds % 60;
-//     return `${minutes < 10 ? '0' : ''}${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
-//   };
-
-//   return (
-//     <div>
-//       <p>Time Left: {formatTime(timeLeft)}</p>
-//       <div>
-//         {words.map((word, index) => (
-//           <span 
-//             key={index} 
-//             className={`${
-//               index === currentWordIndex ? 'current-word' : '' 
-//             } ${
-//               index === currentWordIndex - 1 && !lastWordCorrect ? 'incorrect-word' : ''
-//             }`}
-//           >
-//             {word}{' '}
-//           </span>
-//         ))}
-//       </div>
-//       <input
-//         type="text"
-//         value={userInput}
-//         onChange={handleInputChange}
-//         placeholder="Start typing..."
-//       />
-//     </div>
-//   );
-// };
-
-// export default TypingPractice;
-
-
-// import React, { useState, useEffect } from 'react';
-// import { useNavigate, useLocation } from 'react-router-dom';
-// import './TypingPractice.css'; // Make sure to include the CSS file
-
-// const TypingPractice = () => {
-//   const practiceText = "Hello world. Practice typing here.";
-//   const words = practiceText.split(' ');
-//   const [userInput, setUserInput] = useState('');
-//   const [currentWordIndex, setCurrentWordIndex] = useState(0);
-//   const [correctWords, setCorrectWords] = useState(0);
-//   const [totalWords, setTotalWords] = useState(0);
-
-//   const [timeLeft, setTimeLeft] = useState(null);
-//   const navigate = useNavigate();
-//   const location = useLocation();
-
-//   useEffect(() => {
-//     const searchParams = new URLSearchParams(location.search);
-//     const duration = Number(searchParams.get('duration')) * 60;
-//     setTimeLeft(duration);
-//   }, [location]);
-
-//   useEffect(() => {
-//     let timerId;
-//     if (timeLeft > 0) {
-//       timerId = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
-//     } else if (timeLeft === 0) {
-//       const grossWPM = totalWords / (Number(searchParams.get('duration')));
-//       const accuracy = (correctWords / totalWords) * 100;
-//       const netWPM = correctWords / (Number(searchParams.get('duration')));
-
-//       navigate('/results', { state: { grossWPM, accuracy, netWPM } });
-//     }
-
-//     return () => clearTimeout(timerId);
-//   }, [timeLeft, navigate, totalWords, correctWords]);
-
-//   const handleInputChange = (event) => {
-//     const input = event.target.value;
-//     setUserInput(input);
-
-//     if (input.endsWith(' ') || (currentWordIndex === words.length - 1 && input.trim() === words[words.length - 1])) {
-//       const currentWord = words[currentWordIndex];
-//       const typedWord = input.trim();
-//       setTotalWords(totalWords + 1);
-
-//       if (currentWord === typedWord) {
-//         setCorrectWords(correctWords + 1);
-//       }
-
-//       setCurrentWordIndex((currentWordIndex + 1) % words.length);
-//       setUserInput('');
-//     }
-//   };
-
-//   const formatTime = (seconds) => {
-//     if (seconds === null) return '00:00';
-//     const minutes = Math.floor(seconds / 60);
-//     const remainingSeconds = seconds % 60;
-//     return `${minutes < 10 ? '0' : ''}${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
-//   };
-
-//   return (
-//     <div>
-//       <p>Time Left: {formatTime(timeLeft)}</p>
-//       <div className="text-display">
-//         {words.map((word, index) => (
-//           <span 
-//             key={index} 
-//             className={index === currentWordIndex ? 'current-word' : ''}
-//           >
-//             {word}{' '}
-//           </span>
-//         ))}
-//       </div>
-//       <input
-//         type="text"
-//         value={userInput}
-//         onChange={handleInputChange}
-//         placeholder="Start typing..."
-//         className="typing-input"
-//       />
-//     </div>
-//   );
-// };
-
-// export default TypingPractice;
-
-
-// import React, { useState, useEffect } from 'react';
-// import { useNavigate, useLocation } from 'react-router-dom';
-// import './TypingPractice.css'; // Make sure to include the CSS file
-
-// const TypingPractice = () => {
-//   const practiceText = "Hello world. Practice typing here.";
-//   const words = practiceText.split(' ');
-//   const [userInput, setUserInput] = useState('');
-//   const [currentWordIndex, setCurrentWordIndex] = useState(0);
-//   const [correctWords, setCorrectWords] = useState(0);
-//   const [totalWords, setTotalWords] = useState(0);
-
-//   const [timeLeft, setTimeLeft] = useState(null);
-//   const navigate = useNavigate();
-//   const location = useLocation();
-//   const searchParams = new URLSearchParams(location.search);
-//   const duration = Number(searchParams.get('duration')) * 60; // Convert minutes to seconds
-
-//   useEffect(() => {
-//     setTimeLeft(duration);
-//   }, [duration]);
-
-//   useEffect(() => {
-//     let timerId;
-//     if (timeLeft > 0) {
-//       timerId = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
-//     } else if (timeLeft === 0) {
-//       const grossWPM = totalWords / (duration / 60);
-//       const accuracy = (correctWords / totalWords) * 100;
-//       const netWPM = correctWords / (duration / 60);
-
-//       navigate('/results', { state: { grossWPM, accuracy, netWPM } });
-//     }
-
-//     return () => clearTimeout(timerId);
-//   }, [timeLeft, navigate, totalWords, correctWords, duration]);
-
-//   const handleInputChange = (event) => {
-//     const input = event.target.value;
-//     setUserInput(input);
-
-//     if (input.endsWith(' ') || (currentWordIndex === words.length - 1 && input.trim() === words[words.length - 1])) {
-//       const currentWord = words[currentWordIndex];
-//       const typedWord = input.trim();
-//       setTotalWords(totalWords + 1);
-
-//       if (currentWord === typedWord) {
-//         setCorrectWords(correctWords + 1);
-//       }
-
-//       setCurrentWordIndex((currentWordIndex + 1) % words.length);
-//       setUserInput('');
-//     }
-//   };
-
-//   const formatTime = (seconds) => {
-//     if (seconds === null) return '00:00';
-//     const minutes = Math.floor(seconds / 60);
-//     const remainingSeconds = seconds % 60;
-//     return `${minutes < 10 ? '0' : ''}${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
-//   };
-
-//   return (
-//     <div>
-//       <p>Time Left: {formatTime(timeLeft)}</p>
-//       <div className="text-display">
-//         {words.map((word, index) => (
-//           <span 
-//             key={index} 
-//             className={index === currentWordIndex ? 'current-word' : ''}
-//           >
-//             {word}{' '}
-//           </span>
-//         ))}
-//       </div>
-//       <input
-//         type="text"
-//         value={userInput}
-//         onChange={handleInputChange}
-//         placeholder="Start typing..."
-//         className="typing-input"
-//       />
-//     </div>
-//   );
-// };
-
-// export default TypingPractice;
-
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -288,10 +18,13 @@ const TypingPractice = () => {
   const searchParams = new URLSearchParams(location.search);
   const duration = Number(searchParams.get('duration')) * 60; // Convert minutes to seconds
 
-  useEffect(() => {
-    setTimeLeft(duration);
-  }, [duration]);
+  // useEffect(() => {
+  //   setTimeLeft(duration);
+  // }, [duration]);
 
+  const Test =() =>{
+    setTimeLeft(duration);
+  }
   useEffect(() => {
     let timerId;
     if (timeLeft > 0) {
@@ -310,7 +43,6 @@ const TypingPractice = () => {
   const handleInputChange = (event) => {
     const input = event.target.value;
     setUserInput(input);
-  
     if (input.endsWith(' ') || (currentWordIndex === words.length - 1 && input.trim() === words[words.length - 1])) {
       const currentWord = words[currentWordIndex];
       const typedWord = input.trim();
@@ -339,14 +71,41 @@ const TypingPractice = () => {
     return `${minutes < 10 ? '0' : ''}${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
   };
 
+  const radius = 40; // Radius of the circle
+  const circumference = 2 * Math.PI * radius; // Circumference of the circle
+
+  // Calculate the stroke dashoffset based on time left
+  const strokeDashoffset = () => {
+    const totalTime = duration; // Total time in seconds
+    const percentageLeft = timeLeft / totalTime;
+    return circumference * (1 - percentageLeft);
+  };
   return (
     <div className="typing-container">
-      <p>Time Left: {formatTime(timeLeft)}</p>
+    
+    <div className="w-24 h-24 flex items-center justify-center">
+        <svg width="96" height="96" viewBox="0 0 96 96">
+          <circle
+            cx="48"
+            cy="48"
+            r={radius}
+            fill="none"
+            stroke="#000dff"
+            strokeWidth="4"
+            strokeDasharray={circumference}
+            strokeDashoffset={strokeDashoffset()}
+            transform="rotate(-90 48 48)" // Rotate to start from the top
+          />
+          <text x="50%" y="50%" dy=".3em" textAnchor="middle" className="text-2xl font-bold text-gray-700">
+            {formatTime(timeLeft)}
+          </text>
+        </svg>
+      </div>
       <div className="text-display">
         {words.map((word, index) => (
           <span 
             key={index} 
-            className={`${index === currentWordIndex ? 'current-word' : ''} ${incorrectWords.has(index) ? 'incorrect-word' : ''}`}
+            className={`${index === currentWordIndex ? 'current-word' : ''} ${incorrectWords.has(index) ? 'incorrect-word' : ''} text-lg tracking-widest word-spacing-widest font-normal  text-gray-600 `}
           >
             {word}{' '}
           </span>
@@ -358,6 +117,7 @@ const TypingPractice = () => {
         onChange={handleInputChange}
         placeholder={currentWordIndex === 0 && userInput === '' ? "Start typing..." : ''}
         className="typing-input"
+        onClick={Test}
       />
     </div>
   );

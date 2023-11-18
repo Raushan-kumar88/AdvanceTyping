@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: sans-serif;
+  /* font-family: sans-serif; */
 }
 @tailwind base;
 @tailwind components;
@@ -15,4 +15,5 @@ html{
 
 body{
   background: #f1f2f6;
+  font-family: 'Roboto', sans-serif;
 }
